@@ -1,11 +1,12 @@
 // get access to environment variables
 require('dotenv').config();
 const mongoose = require('mongoose');
-const { faker } = require('@faker-js/faker');
-const { createRandomUser } = require('./utils');
+const axios = require('axios');
+const express = require('express');
+
 
 // import our models
-const { User, Post, Order, Product } = require('./models');
+const plantDetail = require('./models/plantDetail');
 
 console.log('mongo uri =>', process.env.MONGO_URI);
 // connect to the database
@@ -27,135 +28,109 @@ db.on('error', (err) => {
     console.log(`Database error: `, err);
 });
 
-// create a user and save to the DB
-// User.create(createRandomUser())
-// .then((user) => {
-//     console.log('create user',user);
-// })
-// .catch((error) => {
-//     console.log('error', error);
-// });
 
-// create 100 users
-// for (let i = 0; i < 100; i++) {
-//     User.create(createRandomUser())
-//     .then((user) => {
-//         console.log(i, user);
+
+// THIS IS HOW WE SEED PLANTLIST
+
+// axios.get('https://perenual.com/api/species-list?page=1&key=sk-UEJC64a9f13f4d3e51505')
+//     .then((response) => {
+//         // let result = [];
+//         // response.data.data.forEach((plant) => {
+//         //     let obj = {
+//         //         commonName: plant.common_name,
+//         //         scientificName: plant.scientific_name[0],
+//         //         cycle: plant.cycle,
+//         //         watering: plant.watering,
+//         //         sunlight: [...plant.sunlight],
+//         //         health: 0,
+//         //         journalEntries: [],
+//         //         image: plant.default_image.regular_url,
+//         //         otherNames: [...plant.other_name],
+//         //         plantId: plant.id,
+//         //     };
+//         //     result.push(obj);
+//         // });
+//         // console.log('ReSuLt', result);
 //     })
 //     .catch((error) => {
 //         console.log('error', error);
 //     });
+
+// // THIS IS HOW WE SEED PLANTDETAIL
+// axios.get('https://perenual.com/api/species/details/500?key=sk-acxG64a9e7cc984031504')
+//     .then((response) => {
+//         let plantDetail = {
+//             type: response.data.type,
+//             propagation: response.data.propagation,
+//             flowers: response.data.flowers,
+//             floweringSeason: response.data.flowering_season, // can come out as null 
+//             soil: response.data.soil,
+//             growthRate: response.data.growth_rate,
+//             maintenance: response.data.maintenance,
+//             poisonousHumans: response.data.poisonous_to_humans,
+//             poisonousPets: response.data.poisonous_to_pets,
+//             invasive: response.data.invasive,
+//             thorny: response.data.thorny,
+//             indoor: response.data.indoor,
+//             careLevel: response.data.care_level,
+//             pruningMonth: response.data.pruning_month,
+//             pruningCount: response.data.pruning_count,
+//             plantId: response.data.id,
+//         };
+//         console.log('plantDetail', plantDetail);
+//         console.log('response.data', response.data.poisonous_to_humans);
+//     });
+
+// THIS IS HOW WE SEED PLANTGUIDE
+
+axios.get('https://perenual.com/api/species-care-guide-list?key=sk-acxG64a9e7cc984031504')
+    .then((response) => {
+        let result = [];
+        response.data.data.forEach((guide) => {
+            let obj = {
+                wateringDescription: '',
+                sunlightDescription: '',
+                pruningDescription: '',
+                plantId: guide.species_id,
+            };
+            console.log('guide', guide);
+            guide.section.forEach((subguide) => {
+                if (subguide.type === 'watering') {
+                    obj.wateringDescription = subguide.description;
+                }
+                if (subguide.type === 'sunlight') {
+                    obj.sunlightDescription = subguide.description;
+                }
+                if (subguide.type === 'pruning') {
+                    obj.pruningDescription = subguide.description;
+                }
+            });
+            result.push(obj);
+            console.log('result', result);
+        });
+    });
+
+// for (let i = 1; i <= 5; i++) {
+//     plantDetail.findOrCreate(createPlantDetails(i))
+//         .then((plant) => {
+//             if (plant) {
+//                 console.log('found plant', plant);
+//             } else {
+//                 console.log('created plant', plant);
+//             }
+//         })
+//         .catch(error => {
+//             console.log('error', error);
+//         });
+
 // }
-
-// User.findOne({ email: 'Dais.Steuber@yahoo.com' })
-// .then(user => {
-//     if (user) {
-//         res.json({ user })
-//     } else {
-//         console.log('user does not exist')
-//     }
-// })
-// .catch(error => {
-//     console.log('error', error);
-// })
-
-// create a Post without comment
-// Post.create({
-//     title: 'General Assembly offers bootcamp',
-//     subtitle: 'Come learn software engineering',
-//     content: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus saepe doloribus aperiam aut veritatis ullam itaque sed nobis autem! Aliquam facilis tempora quas vitae ipsum nulla voluptas maxime ducimus eligendi.',
-//     username: 'romebell'
-// })
-// .then((post) => {
-//     console.log('new post created (object) ->', post);
-// })
-// .catch((error) => {
-//     console.log('error inside of new Post', error);
-// })
-
-// Find post by id and add comment
-// Post.findById('6493d27d903a15a0c1662c3e')
-// .then((post) => {
-//     if (post) {
-//         // add a comment to the post
-//         const newComment = { username: 'jackrecher', header: 'nice', body: 'Where at?' }
-//         post.comments.push(newComment);
-//         // save the post 
-//         post.save()
-//         .then(result => {
-//             console.log('After comment is saved', result);
+// for (let i = 1; i <= 2; i++) {
+//     plantDetail.findOrCreate(createPlantDetails(i))
+//         // axios.get(`https://perenual.com/api/species/details/${i}?key=sk-acxG64a9e7cc984031504`)
+//         .then((result) => {
+//             console.log('result', result);
 //         })
-//         .catch(error => console.log('error', error));
-//     } else {
-//         console.log('did not find post');
-//     }
-// })
-// .catch(error => console.log('error', error));
-
-
-// Updating a comment inside of a post
-// Post.findById('6493d27d903a15a0c1662c3e')
-// .then((post) => {
-//     if (post) {
-//         // find the comment by the id and update
-//         const comment = post.comments.id('6493d5195db1f2b5fe7392b6');
-//         comment.header = 'this is cool stuff';
-//         comment.body = 'I am more than interested';
-//         post.save()
-//         .then(result => {
-//             console.log('did this update',result)
-//         })
-//         .catch(error => console.log('error updating subdocument', error));
-//     } else {
-//         console.log('post does not exist.');
-//     }
-// })
-// .catch(error => console.log('error', error));
-
-// delete a comment inside of a post
-// Post.findById('6493d27d903a15a0c1662c3e')
-// .then((post) => {
-//     if (post) {
-//         // find the comment by the id and remove
-//         post.comments.id('6493d5195db1f2b5fe7392b6').deleteOne()
-        
-//         post.save()
-//         .then(result => {
-//             console.log('removed comment', result);
-//         })
-//         .catch(error => console.log('error deleting subdocument', error));
-//     } else {
-//         console.log('post does not exist.');
-//     }
-// })
-// .catch(error => console.log('error', error));
-
-// create a new order
-Order.create({
-    buyer: 'Issac',
-    trackingNumber: '384939xciosd02392',
-})
-.then(order => {
-    console.log('new order', order);
-    // add products to order
-    order.products.push('649747b45845267e021fedce', '649747b45845267e021fedc9');
-    // save the order
-    order.save()
-    .then(updatedOrder => {
-        console.log('order updated', updatedOrder);
-        // print the actual product inside order
-        updatedOrder.populate('products')
-        .then(result => {
-            console.log('order with products', result);
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    })
-    .catch(error => {
-        console.log(error);
-    })
-})
-.catch(error => {
-    console.log(error);
-})
+//         .catch(error => {
+//             console.log('error', error);
+//         });
+// }
