@@ -3,13 +3,15 @@ const mongoose = require('mongoose');
 // the subdocuments get created first -- embedded document
 const plantListSchema = new mongoose.Schema({
     commonName: String,
-    scientificName: String,
+    scientificName: [String],
     cycle: String,
     watering: String,
-    sunlight: String,
+    sunlight: [String],
     health: Number,
-    journalEntries: String,
-    image: String,
+    journalEntries: [String],
+    image: {
+        type: String,
+    },
     otherNames: [String],
     plantId: String,
 

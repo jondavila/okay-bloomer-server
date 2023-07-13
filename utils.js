@@ -17,20 +17,26 @@ function addPlantList(pageNumber) {
                     watering: plant.watering,
                     sunlight: [...plant.sunlight],
                     health: 0,
-                    journalEntries: [],
+                    journalEntries: [''],
                     image: plant.default_image ? plant.default_image.regular_url : null,
-                    // image: plant.default_image.regular_url,
                     otherNames: [...plant.other_name],
                     plantId: plant.id,
                 };
                 result.push(obj);
             });
-            return result;
-            // console.log('ReSuLt', result);
+            createPlantList(result);
         })
         .catch((error) => {
             console.log('error', error);
         });
+}
+
+function createPlantList(plantList) {
+    PlantList.create(plantList)
+        .then((plant) => {
+            console.log('new PLANT LIST added', plant);
+        })
+        .catch(err => console.log('error', err));
 }
 
 
