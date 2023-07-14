@@ -117,37 +117,25 @@ function createPlantGuide(plantObj) {
         .catch(err => console.log('error', err));
 }
 
-// function createPlantGuide(pageNumber) {
-//     axios.get(`https://perenual.com/api/species-care-guide-list?key=sk-acxG64a9e7cc984031504&page=${pageNumber}`)
-//         .then((response) => {
-//             let result = [];
-//             response.data.data.forEach((guide) => {
-//                 let obj = {
-//                     wateringDescription: '',
-//                     sunlightDescription: '',
-//                     pruningDescription: '',
-//                     plantId: guide.species_id,
-//                 };
-//                 console.log('guide', guide);
-//                 guide.section.forEach((subguide) => {
-//                     if (subguide.type === 'watering') {
-//                         obj.wateringDescription = subguide.description;
-//                     }
-//                     if (subguide.type === 'sunlight') {
-//                         obj.sunlightDescription = subguide.description;
-//                     }
-//                     if (subguide.type === 'pruning') {
-//                         obj.pruningDescription = subguide.description;
-//                     }
-//                 });
-//                 result.push(obj);
+
+
+// function referencePlantList() {
+//     PlantDetail.find()
+//         .then((plants) => {
+//             plants.forEach((plant) => {
+//                 PlantList.findOne({ plantId: plant.plantId })
+//                     .then((plantList) => {
+//                         plantList.plantDetail = plant._id;
+//                         plantList.save();
+//                     });
 //             });
 //         });
-//}
+// }
+
 
 module.exports = {
     addPlantDetails,
     addPlantList,
-    // addPlantGuides,
+    addPlantGuides,
 
 };
