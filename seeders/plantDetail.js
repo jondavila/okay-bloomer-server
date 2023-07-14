@@ -4,8 +4,7 @@ const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost:27017/plant-app', { useNewUrlParser: true, useUnifiedTopology: true });
 
-addPlantDetails(1);
 
-for (let i = 2; i <= 10; i++) {
+for (let i = 500; i <= 600; i++) {
     addPlantDetails(i);
 }
