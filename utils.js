@@ -40,45 +40,45 @@ function createPlantList(plantList) {
 }
 
 
-// function addPlantDetails(plantNum) {
-//     let newPlantDetail = {};
-//     axios.get(`https://perenual.com/api/species/details/${plantNum}?key=sk-acxG64a9e7cc984031504`)
-//         .then((response) => {
-//             newPlantDetail = {
-//                 type: response.data.type,
-//                 propagation: response.data.propagation,
-//                 flowers: response.data.flowers,
-//                 floweringSeason: response.data.flowering_season, // can come out as null 
-//                 soil: response.data.soil,
-//                 growthRate: response.data.growth_rate,
-//                 maintenance: response.data.maintenance,
-//                 poisonousHumans: response.data.poisonous_to_humans,
-//                 poisonousPets: response.data.poisonous_to_pets,
-//                 invasive: response.data.invasive,
-//                 thorny: response.data.thorny,
-//                 indoor: response.data.indoor,
-//                 careLevel: response.data.care_level,
-//                 pruningMonth: response.data.pruning_month,
-//                 pruningCount: {
-//                     amount: response.data.pruning_count.amount, // can come out as undefined
-//                     interval: response.data.pruning_count.interval // can come out as undefined
-//                 },
-//                 plantId: response.data.id,
-//             };
-//             createPlantDetail(newPlantDetail);
-//         })
-//         .catch((error) => {
-//             console.log('error', error);
-//         });
-// }
+function addPlantDetails(plantNum) {
+    let newPlantDetail = {};
+    axios.get(`https://perenual.com/api/species/details/${plantNum}?key=sk-acxG64a9e7cc984031504`)
+        .then((response) => {
+            newPlantDetail = {
+                type: response.data.type,
+                propagation: response.data.propagation,
+                flowers: response.data.flowers,
+                floweringSeason: response.data.flowering_season, // can come out as null 
+                soil: response.data.soil,
+                growthRate: response.data.growth_rate,
+                maintenance: response.data.maintenance,
+                poisonousHumans: response.data.poisonous_to_humans,
+                poisonousPets: response.data.poisonous_to_pets,
+                invasive: response.data.invasive,
+                thorny: response.data.thorny,
+                indoor: response.data.indoor,
+                careLevel: response.data.care_level,
+                pruningMonth: response.data.pruning_month,
+                pruningCount: {
+                    amount: response.data.pruning_count.amount, // can come out as undefined
+                    interval: response.data.pruning_count.interval // can come out as undefined
+                },
+                plantId: response.data.id,
+            };
+            createPlantDetail(newPlantDetail);
+        })
+        .catch((error) => {
+            console.log('error', error);
+        });
+}
 
-// function createPlantDetail(plantObj) {
-//     PlantDetail.create(plantObj)
-//         .then((plant) => {
-//             console.log('new plant added', plant);
-//         })
-//         .catch(err => console.log('error', err));
-// }
+function createPlantDetail(plantObj) {
+    PlantDetail.create(plantObj)
+        .then((plant) => {
+            console.log('new plant added', plant);
+        })
+        .catch(err => console.log('error', err));
+}
 
 function addPlantGuides(pageNum) {
     axios.get(`https://perenual.com/api/species-care-guide-list?key=sk-acxG64a9e7cc984031504&page=${pageNum}}`)
@@ -146,7 +146,7 @@ function createPlantGuide(plantObj) {
 //}
 
 module.exports = {
-    // addPlantDetails,
+    addPlantDetails,
     addPlantList,
     // addPlantGuides,
 
