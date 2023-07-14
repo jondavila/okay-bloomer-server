@@ -16,6 +16,18 @@ router.get('/', function (req, res) {
         });
 });
 
+router.get('/:plantId', function (req, res) {
+    PlantList.findOne({ plantId: req.params.plantId })
+        .then((plantList) => {
+            console.log('plantList', plantList);
+            res.json({ plantList: plantList });
+        })
+        .catch((error) => {
+            console.log('error', error);
+            res.json({ message: 'There was an issue, please try again...' });
+        });
+});
+
 
 
 module.exports = router;
