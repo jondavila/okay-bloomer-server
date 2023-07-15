@@ -20,6 +20,7 @@ app.use('/users', require('./controllers/users'));
 app.use('/plantdetails', require('./controllers/plantdetails'));
 app.use('/plantguides', require('./controllers/plantguides'));
 app.use('/plantlists', require('./controllers/plantlists'));
+app.use('/plantfaqs', require('./controllers/plantfaqs'));
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
