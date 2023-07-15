@@ -63,11 +63,3 @@ router.get('/:plantId', function (req, res) {
 module.exports = router;
 
 
-// let result = [];
-            // for (let i = 0; i < plantDetails.length; i++) {
-            //     if (plantDetails[i].type === req.params.plantType) {
-            //         result.push(plantDetails);
-            //     }
-            // }
-            // return res.json({ plantDetails: result });
-
