@@ -17,6 +17,7 @@ router.get('/', function (req, res) {
 });
 
 
+
 router.get('/journalEntries', (req, res) => {
     PlantList.find({})
         .then((plantLists) => {
