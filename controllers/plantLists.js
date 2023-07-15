@@ -35,6 +35,43 @@ router.get('/journalEntries', (req, res) => {
         });
 });
 
+// ==================== Gives all common names ==================== //
+
+router.get('/commonNames', (req, res) => {
+    PlantList.find({})
+        .then((plantLists) => {
+            let allCommonNames = [];
+            for (let i = 0; i < plantLists.length; i++) {
+                allCommonNames.push(plantLists[i].commonName);
+            }
+            console.log('allCommonNames', allCommonNames);
+            return res.json({ allCommonNames: allCommonNames });
+        })
+        .catch((error) => {
+            console.log('error', error);
+            res.json({ message: 'There was an issue, please try again...' });
+        });
+});
+
+// ==================== Gives all scientific names ==================== //
+
+router.get('/scientificNames', (req, res) => {
+    PlantList.find({})
+        .then((plantLists) => {
+            let allScientificNames = [];
+            for (let i = 0; i < plantLists.length; i++) {
+                allScientificNames.push(plantLists[i].scientificName);
+            }
+            console.log('allScientificNames', allScientificNames);
+            return res.json({ allScientificNames: allScientificNames });
+        })
+        .catch((error) => {
+            console.log('error', error);
+            res.json({ message: 'There was an issue, please try again...' });
+        });
+});
+
+// ==================== Gives data form the API's list ==================== //
 
 router.get('/:plantId', function (req, res) {
     PlantList.findOne({ plantId: req.params.plantId })
@@ -47,6 +84,7 @@ router.get('/:plantId', function (req, res) {
             res.json({ message: 'There was an issue, please try again...' });
         });
 });
+
 
 
 
