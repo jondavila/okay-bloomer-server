@@ -16,6 +16,26 @@ router.get('/', function (req, res) {
         });
 });
 
+
+router.get('/journalEntries', (req, res) => {
+    PlantList.find({})
+        .then((plantLists) => {
+            let allJournalEntries = [];
+            for (let i = 0; i < plantLists.length; i++) {
+                if (plantLists[i].journalEntries.length > 0) {
+                    allJournalEntries.push(...plantLists[i].journalEntries);
+                }
+            }
+            console.log('allJournalEntries', allJournalEntries);
+            return res.json({ allJournalEntries: allJournalEntries });
+        })
+        .catch((error) => {
+            console.log('error', error);
+            res.json({ message: 'There was an issue, please try again...' });
+        });
+});
+
+
 router.get('/:plantId', function (req, res) {
     PlantList.findOne({ plantId: req.params.plantId })
         .then((plantList) => {
@@ -28,29 +48,10 @@ router.get('/:plantId', function (req, res) {
         });
 });
 
-router.get('/journalEntries/:plantId', function (req, res) {
-    PlantList.findOne({ plantId: req.params.plantId })
-        .then((plantList) => {
-            console.log('plantList', plantList);
-            res.json({ journalEntries: plantList.journalEntries });
-        })
-        .catch((error) => {
-            console.log('error', error);
-            res.json({ message: 'There was an issue, please try again...' });
-        });
-});
 
-router.get('/journalEntries/:plantId', function (req, res) {
-    PlantList.findOne({ plantId: req.params.plantId })
-        .then((plantList) => {
-            console.log('plantList', plantList);
-            res.json({ journalEntries: plantList.journalEntries });
-        })
-        .catch((error) => {
-            console.log('error', error);
-            res.json({ message: 'There was an issue, please try again...' });
-        });
-});
+
+
+
 
 // ================================ POST ================================ //
 
@@ -72,6 +73,8 @@ router.post('/new', function (req, res) {
             res.json({ message: 'There was an issue, please try again...' });
         });
 });
+
+
 
 
 // ================================ PUT ================================ //

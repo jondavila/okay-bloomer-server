@@ -119,20 +119,6 @@ function createPlantGuide(plantObj) {
 
 
 
-// function referencePlantList() {
-//     PlantDetail.find()
-//         .then((plants) => {
-//             plants.forEach((plant) => {
-//                 PlantList.findOne({ plantId: plant.plantId })
-//                     .then((plantList) => {
-//                         plantList.plantDetail = plant._id;
-//                         plantList.save();
-//                     });
-//             });
-//         });
-// }
-
-
 module.exports = {
     addPlantDetails,
     addPlantList,
