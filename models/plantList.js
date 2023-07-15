@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// the subdocuments get created first -- embedded document
+// referencing schema -- parent document
 const plantListSchema = new mongoose.Schema({
     commonName: String,
     scientificName: [String],
@@ -8,7 +8,11 @@ const plantListSchema = new mongoose.Schema({
     watering: String,
     sunlight: [String],
     health: Number,
-    journalEntries: [String],
+    journalEntries: {
+        type: [String],
+        default: [''],
+        ref: 'JournalEntry',
+    },
     image: {
         type: String,
     },
@@ -18,12 +22,20 @@ const plantListSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
+// referenced schema -- child document
+const journalEntrySchema = new mongoose.Schema({
+    entry: String,
+    date: Date,
+    plantId: String,
+}, { timestamps: true });
+
+
 
 
 // create model
 const PlantList = mongoose.model('PlantList', plantListSchema);
+const JournalEntry = mongoose.model('JournalEntry', journalEntrySchema);
 
 
-
-module.exports = PlantList;
+module.exports = PlantList, JournalEntry;
 
