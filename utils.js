@@ -7,7 +7,7 @@ const PlantFaq = require('./models/plantFaq');
 
 
 function addPlantList(pageNumber) {
-    axios.get(`https://perenual.com/api/species-list?page=${pageNumber}&key=sk-UEJC64a9f13f4d3e51505`)
+    axios.get(`https://perenual.com/api/species-list?page=${pageNumber}&key=${process.env.PERENUAL_API_KEY}}`)
         .then((response) => {
             let result = [];
             response.data.data.forEach((plant) => {
