@@ -3,6 +3,7 @@ require('dotenv').config();
 const PlantDetail = require('./models/plantDetail');
 const PlantGuide = require('./models/plantGuide');
 const PlantList = require('./models/plantList');
+const PlantFaq = require('./models/plantFaq');
 
 
 function addPlantList(pageNumber) {
@@ -118,10 +119,36 @@ function createPlantGuide(plantObj) {
 }
 
 
+function addPlantFaq(pageNum) {
+    axios.get(`https://perenual.com/api/article-faq-list?key=sk-acxG64a9e7cc984031504&page=${pageNum}}`)
+        .then((response) => {
+            let result = [];
+            response.data.data.forEach((plantFaq) => {
+                let obj = {
+                    question: plantFaq.question,
+                    answer: plantFaq.answer,
+                    faqId: plantFaq.id
+                };
+                console.log('obj', obj);
+                result.push(obj);
+            });
+            createPlantFaq(result);
+        });
+}
+
+function createPlantFaq(plantFaqObj) {
+    PlantFaq.create(plantFaqObj)
+        .then((plant) => {
+            console.log('plant FAQ added', plant);
+        })
+        .catch(err => console.log('error', err));
+}
+
+
 
 module.exports = {
     addPlantDetails,
     addPlantList,
     addPlantGuides,
-
+    addPlantFaq,
 };
