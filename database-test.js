@@ -83,32 +83,32 @@ db.on('error', (err) => {
 
 // THIS IS HOW WE SEED PLANTGUIDE
 
-axios.get('https://perenual.com/api/species-care-guide-list?key=sk-acxG64a9e7cc984031504')
-    .then((response) => {
-        let result = [];
-        response.data.data.forEach((guide) => {
-            let obj = {
-                wateringDescription: '',
-                sunlightDescription: '',
-                pruningDescription: '',
-                plantId: guide.species_id,
-            };
-            console.log('guide', guide);
-            guide.section.forEach((subguide) => {
-                if (subguide.type === 'watering') {
-                    obj.wateringDescription = subguide.description;
-                }
-                if (subguide.type === 'sunlight') {
-                    obj.sunlightDescription = subguide.description;
-                }
-                if (subguide.type === 'pruning') {
-                    obj.pruningDescription = subguide.description;
-                }
-            });
-            result.push(obj);
-            console.log('result', result);
-        });
-    });
+// axios.get('https://perenual.com/api/species-care-guide-list?key=sk-acxG64a9e7cc984031504')
+//     .then((response) => {
+//         let result = [];
+//         response.data.data.forEach((guide) => {
+//             let obj = {
+//                 wateringDescription: '',
+//                 sunlightDescription: '',
+//                 pruningDescription: '',
+//                 plantId: guide.species_id,
+//             };
+//             console.log('guide', guide);
+//             guide.section.forEach((subguide) => {
+//                 if (subguide.type === 'watering') {
+//                     obj.wateringDescription = subguide.description;
+//                 }
+//                 if (subguide.type === 'sunlight') {
+//                     obj.sunlightDescription = subguide.description;
+//                 }
+//                 if (subguide.type === 'pruning') {
+//                     obj.pruningDescription = subguide.description;
+//                 }
+//             });
+//             result.push(obj);
+//             console.log('result', result);
+//         });
+//     });
 
 // for (let i = 1; i <= 5; i++) {
 //     plantDetail.findOrCreate(createPlantDetails(i))
@@ -134,3 +134,22 @@ axios.get('https://perenual.com/api/species-care-guide-list?key=sk-acxG64a9e7cc9
 //             console.log('error', error);
 //         });
 // }
+
+function addPlantFaq(pageNum) {
+    axios.get(`https://perenual.com/api/article-faq-list?key=sk-acxG64a9e7cc984031504&page=${pageNum}}`)
+        .then((response) => {
+            let result = [];
+            response.data.data.forEach((plantFaq) => {
+                let obj = {
+                    question: plantFaq.question,
+                    answer: plantFaq.answer,
+                    faqId: plantFaq.id
+                };
+                console.log('obj', obj);
+                result.push(obj);
+            });
+            // createPlantFaq(result);
+        });
+}
+
+addPlantFaq(1);
