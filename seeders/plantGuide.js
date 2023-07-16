@@ -1,8 +1,5 @@
-const PlantGuide = require('../models/plantGuide');
+const { PlantGuide } = require('../models');
 const { createPlantGuide, addPlantGuides } = require('../utils');
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost:27017/plant-app', { useNewUrlParser: true, useUnifiedTopology: true });
 
 addPlantGuides(1);
 

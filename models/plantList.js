@@ -22,20 +22,9 @@ const plantListSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-// referenced schema -- child document
-const journalEntrySchema = new mongoose.Schema({
-    entry: String,
-    date: Date,
-    plantId: String,
-}, { timestamps: true });
-
-
-
-
 // create model
 const PlantList = mongoose.model('PlantList', plantListSchema);
-const JournalEntry = mongoose.model('JournalEntry', journalEntrySchema);
 
 
-module.exports = PlantList, JournalEntry;
+module.exports = PlantList;
 

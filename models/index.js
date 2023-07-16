@@ -6,6 +6,11 @@ const User = require('./user');
 const Post = require('./post');
 const Product = require('./product');
 const Order = require('./order');
+const PlantDetail = require("./plantDetail");
+const PlantFaq = require("./plantFaq");
+const PlantList = require("./plantList");
+const JournalEntry = require("./journalEntry");
+const PlantGuide = require("./plantGuide");
 
 console.log('mongo uri =>', process.env.MONGO_URI);
 
@@ -32,5 +37,10 @@ module.exports = {
     User,
     Post,
     Product,
-    Order
+    Order,
+    PlantDetail,
+    PlantFaq,
+    PlantList,
+    JournalEntry,
+    PlantGuide
 }
