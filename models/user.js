@@ -10,7 +10,7 @@ const plantSanctuarySchema = new mongoose.Schema({
         plantImage: String,
         plantId: Number,
         plantTasks: [''],
-        JournalEntry: [JournalEntry]
+        // JournalEntry: [JournalEntry]
     }]
 }, { timestamps: true });
 
@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
 
 // create model
 const User = mongoose.model('User', userSchema);
-const JournalEntry = mongoose.model('JournalEntry', journalEntrySchema);
+
 
 // export the model to be used
-module.exports = User, JournalEntry;
+module.exports = User;
