@@ -12,7 +12,7 @@ const journalEntrySchema = new mongoose.Schema({
 
 // create the plant tasks embedded document schema
 const plantTasksSchema = new mongoose.Schema({
-    name: String,
+    taskName: String,
     status: String, // 'watering', 'fertilizing', 'pruning', 'repotting', 'pest control'
     plantId: Number, // this is the plantId from the plantList
     date: Date,
