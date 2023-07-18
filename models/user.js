@@ -1,18 +1,37 @@
 const mongoose = require('mongoose');
-const journalEntry = require('../models/journalEntry');
+
+
+// create the journal entry for a specific plant embedded document schema
+const journalEntrySchema = new mongoose.Schema({
+    title: String,
+    content: String,
+    plantId: Number, // this is the plantId from the plantList
+}, { timestamps: true });
+
+
+
+// create the plant tasks embedded document schema
+const plantTasksSchema = new mongoose.Schema({
+    name: String,
+    status: String, // 'watering', 'fertilizing', 'pruning', 'repotting', 'pest control'
+    plantId: Number, // this is the plantId from the plantList
+    date: Date,
+}, { timestamps: true });
 
 
 // create the embedded document schema
 const plantSanctuarySchema = new mongoose.Schema({
-    myPlants: [{
+    userPlants: [{
         plantNickname: String,
         plantOfficialName: String,
         plantImage: String,
-        plantId: Number,
-        plantTasks: [''],
-        // JournalEntry: [JournalEntry]
-    }]
+        plantId: Number, // this is the plantId from the plantList
+        plantTasks: [plantTasksSchema],
+    }],
+    journalEntries: [journalEntrySchema],
+    health: Number,
 }, { timestamps: true });
+
 
 // create the user schema
 const userSchema = new mongoose.Schema({
@@ -30,7 +49,6 @@ const userSchema = new mongoose.Schema({
     },
     number: String,
     plants: [plantSanctuarySchema],
-
 }, { timestamps: true });
 
 

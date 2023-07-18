@@ -4,6 +4,7 @@ const PlantDetail = require('./models/plantDetail');
 const PlantGuide = require('./models/plantGuide');
 const PlantList = require('./models/plantList');
 const PlantFaq = require('./models/plantFaq');
+const faker = require('@faker-js/faker');
 
 
 function addPlantList(pageNumber) {
@@ -144,6 +145,104 @@ function createPlantFaq(plantFaqObj) {
         .catch(err => console.log('error', err));
 }
 
+function createRandomUser() {
+
+    let firstName = faker.person.firstName();
+    let lastName = faker.person.lastName();
+    let email = firstName + lastName + '@' + faker.internet.email().split('@')[1];
+    // let email = `${firstName}.${lastName}@${faker.internet.email().split('@')[1]}`;
+    console.log('email', email);
+
+    // split the faker email
+
+    return {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        jobTitle: faker.person.jobTitle(),
+        birthdate: faker.date.birthdate(),
+        address: {
+            streetAddress: faker.location.streetAddress(),
+            city: faker.location.city(),
+            state: faker.location.state(),
+            zipCode: faker.location.zipCode('#####'),
+        },
+        number: faker.phone.number(),
+        plants: [{
+            userPlants: [{
+                plantNickname: faker.name.firstName(),
+                plantOfficialName: 'European Silver Fir',
+                plantImage: faker.image.imageUrl(),
+                plantId: 1,
+                plantTasks: [{
+                    name: 'Fertilize',
+                    status: 'incomplete',
+                    plantId: 1,
+                    date: faker.date.future(),
+                },
+                {
+                    name: 'Water',
+                    status: 'incomplete',
+                    plantId: 1,
+                    date: faker.date.future(),
+                }, {
+                    plantNickname: faker.name.firstName(),
+                    plantOfficialName: 'Australian Golden Fir',
+                    plantImage: faker.image.imageUrl(),
+                    plantId: 2,
+                    plantTasks: [{
+                        name: 'Fertilize',
+                        status: 'incomplete',
+                        plantId: 2,
+                        date: faker.date.future(),
+                    },
+                    {
+                        name: 'Water',
+                        status: 'incomplete',
+                        plantId: 2,
+                        date: faker.date.future(),
+                    }],
+                }],
+                journalEntries: [{
+                    title: 'My first journal entry',
+                    content: 'I am so excited to START my plant journal!',
+                    plantId: 1,
+                }, { // these brackets close/open a new journal entry object inside the journal entries array
+                    title: 'My second journal entry',
+                    content: 'I am so excited to END my plant journal!',
+                    plantId: 1,
+                }], // these brackets close the journal entries array
+                health: 100,
+            }, { // these brackets close/open a new plant object inside the plant sanctuary schema
+                plantNickname: faker.name.firstName(),
+                plantOfficialName: 'Australian Golden Fir',
+                plantImage: faker.image.imageUrl(),
+                plantId: 2,
+                plantTasks: [{
+                    name: 'Fertilize',
+                    status: 'incomplete',
+                    plantId: 2,
+                    date: faker.date.future(),
+                }, { // these brackets close/open a new plant task object inside the plant sanctuary schema
+                    name: 'Water',
+                    status: 'incomplete',
+                    plantId: 2,
+                    date: faker.date.future(),
+                }],
+                journalEntries: [{
+                    title: 'My first journal entry',
+                    content: 'I am so excited to START my plant journal!',
+                    plantId: 2,
+                }, { // these brackets close/open a new journal entry object inside the journal entries array
+                    title: 'My second journal entry',
+                    content: 'I am so excited to END my plant journal!',
+                    plantId: 2,
+                }], // these brackets close the journal entries array
+                health: 100,
+            }] // these brackets close/open the userPlants array
+        }], // these brackets close/open the plants array
+    }; // these brackets close/open the return object
+} // this bracket closes the function
 
 
 module.exports = {
@@ -151,4 +250,5 @@ module.exports = {
     addPlantList,
     addPlantGuides,
     addPlantFaq,
+    createRandomUser,
 };
