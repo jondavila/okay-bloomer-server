@@ -57,6 +57,7 @@ router.get('/plantTypes', function (req, res) {
         });
 });
 
+
 router.get('/:plantId', function (req, res) {
     PlantDetail.findOne({ plantId: req.params.plantId })
         .then((plantDetail) => {
