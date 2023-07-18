@@ -28,8 +28,6 @@ db.on('error', (err) => {
     console.log(`Database error: `, err);
 });
 
-
-
 // THIS IS HOW WE SEED PLANTLIST
 
 // axios.get('https://perenual.com/api/species-list?page=1&key=sk-UEJC64a9f13f4d3e51505')
