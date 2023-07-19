@@ -38,6 +38,7 @@ function addPlantDetails(plantNum) {
                     amount: response.data.pruning_count.amount, // can come out as undefined
                     interval: response.data.pruning_count.interval // can come out as undefined
                 },
+                description: response.data.description,
                 plantId: response.data.id,
             };
             createPlantDetail(newPlantDetail);
