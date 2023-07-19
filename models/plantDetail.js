@@ -9,9 +9,7 @@ const plantDetailSchema = new mongoose.Schema({
     watering: String,
     sunlight: [String],
     health: Number,
-    image: {
-        type: String,
-    },
+    image: String,
     type: String,
     propagation: [{
         type: String,
