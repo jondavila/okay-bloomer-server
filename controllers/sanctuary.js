@@ -43,8 +43,8 @@ router.get('/plants/single', (req, res) => {
 
 // TODO
 // this route will add a plant to a user's plant sanctuary
-router.post('/plants/new/:userId', (req, res) => {
-    User.find({ _id: req.params.userId })
+router.post('/plants/new', (req, res) => {
+    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
         .then((response) => {
             const newPlant = {
                 plantNickname: req.body.nickName,
@@ -60,7 +60,7 @@ router.post('/plants/new/:userId', (req, res) => {
                 }],
             };
             response[0].plants[0].userPlants.push(newPlant);
-            response.save()
+            response[0].save()
                 .then((newEntry) => {
                     console.log('newEntry', newEntry);
                     res.json({ response: newEntry });
