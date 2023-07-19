@@ -3,6 +3,15 @@ const mongoose = require('mongoose');
 
 
 const plantDetailSchema = new mongoose.Schema({
+    commonName: String,
+    scientificName: [String],
+    cycle: String,
+    watering: String,
+    sunlight: [String],
+    health: Number,
+    image: {
+        type: String,
+    },
     type: String,
     propagation: [{
         type: String,

@@ -8,46 +8,18 @@ const { faker } = require('@faker-js/faker');
 const User = require('./models/user');
 
 
-function addPlantList(pageNumber) {
-    axios.get(`https://perenual.com/api/species-list?page=${pageNumber}&key=${process.env.PERENUAL_API_KEY}}`)
-        .then((response) => {
-            let result = [];
-            response.data.data.forEach((plant) => {
-                let obj = {
-                    commonName: plant.common_name,
-                    scientificName: plant.scientific_name[0],
-                    cycle: plant.cycle,
-                    watering: plant.watering,
-                    sunlight: [...plant.sunlight],
-                    health: 0,
-                    journalEntries: [''],
-                    image: plant.default_image ? plant.default_image.regular_url : null,
-                    otherNames: [...plant.other_name],
-                    plantId: plant.id,
-                };
-                result.push(obj);
-            });
-            createPlantList(result);
-        })
-        .catch((error) => {
-            console.log('error', error);
-        });
-}
-
-function createPlantList(plantList) {
-    PlantList.create(plantList)
-        .then((plant) => {
-            console.log('new PLANT LIST added', plant);
-        })
-        .catch(err => console.log('error', err));
-}
-
-
 function addPlantDetails(plantNum) {
     let newPlantDetail = {};
     axios.get(`https://perenual.com/api/species/details/${plantNum}?key=sk-acxG64a9e7cc984031504`)
         .then((response) => {
             newPlantDetail = {
+                commonName = response.data.common_name,
+                scientificName = response.data.scientific_name,
+                cycle: response.data.cycle,
+                watering: response.data.watering,
+                sunlight: [...response.sunlight],
+                health: 100,
+                image: response.default_image ? response.default_image.regular_url : null,
                 type: response.data.type,
                 propagation: response.data.propagation,
                 flowers: response.data.flowers,
