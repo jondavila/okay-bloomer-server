@@ -36,8 +36,16 @@ router.get('/plantTypes', function (req, res) {
         .then((plantDetails) => {
             let result = [];
             for (let i = 0; i < plantDetails.length; i++) {
-                if (!result.includes(plantDetails[i].type)) {
-                    result.push(plantDetails[i].type);
+                if (!plantDetails[i].type) {
+                } else if (plantDetails[i].type === null) {
+                    if (!result.includes('other')) {
+                        result.push('other');
+                    }
+                } else {
+                    let uniquePlantType = plantDetails[i].type.toLowerCase();
+                    if (!result.includes(uniquePlantType)) {
+                        result.push(uniquePlantType);
+                    }
                 }
             }
             console.log('plantTypes', result);

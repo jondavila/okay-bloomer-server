@@ -1,4 +1,5 @@
 const express = require('express');
+<<<<<<< HEAD
 const PlantDetail = require('../models/plantDetail');
 const router = express.Router();
 
@@ -257,3 +258,13 @@ router.delete('/journal/single/delete/:entryIndexNumber', (req, res) => {
 
 
 module.exports = router;
+=======
+const router = express.Router();
+
+router.get('/', (req, res) => {
+    User.find({})
+        .then((response) => {
+        });
+})
+
+>>>>>>> bba570f12b3466e7ded1233965dd1814c0cfb173

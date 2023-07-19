@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const findOrCreate = require('mongoose-findorcreate');
 
 
 
@@ -32,7 +31,6 @@ const plantDetailSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-plantDetailSchema.plugin(findOrCreate);
 
 
 
