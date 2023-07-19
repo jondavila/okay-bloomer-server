@@ -37,6 +37,7 @@ const plantSanctuarySchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
+
 // create the user schema
 const userSchema = new mongoose.Schema({
     firstName: String,
