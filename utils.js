@@ -2,7 +2,6 @@ const axios = require('axios');
 require('dotenv').config();
 const PlantDetail = require('./models/plantDetail');
 const PlantGuide = require('./models/plantGuide');
-const PlantList = require('./models/plantList');
 const PlantFaq = require('./models/plantFaq');
 const { faker } = require('@faker-js/faker');
 const User = require('./models/user');
@@ -13,13 +12,13 @@ function addPlantDetails(plantNum) {
     axios.get(`https://perenual.com/api/species/details/${plantNum}?key=sk-acxG64a9e7cc984031504`)
         .then((response) => {
             newPlantDetail = {
-                commonName = response.data.common_name,
-                scientificName = response.data.scientific_name,
+                commonName: response.data.common_name,
+                scientificName: response.data.scientific_name,
                 cycle: response.data.cycle,
                 watering: response.data.watering,
-                sunlight: [...response.sunlight],
+                sunlight: [...response.data.sunlight],
                 health: 100,
-                image: response.default_image ? response.default_image.regular_url : null,
+                image: response.data.default_image ? response.data.default_image.regular_url : null,
                 type: response.data.type,
                 propagation: response.data.propagation,
                 flowers: response.data.flowers,
@@ -203,12 +202,7 @@ function createRandomUser(newUserObj) {
 
 module.exports = {
     addPlantDetails,
-    addPlantList,
     addPlantGuides,
     addPlantFaq,
-<<<<<<< HEAD
-=======
-    createRandomUser,
->>>>>>> c63dbecd9b2bd1f869ffd4fd1f7dea2d2a041fcd
     addRandomUser,
 };

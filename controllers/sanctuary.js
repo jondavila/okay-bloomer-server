@@ -43,34 +43,70 @@ router.get('/plants/single', (req, res) => {
 
 // TODO
 // this route will add a plant to a user's plant sanctuary
-router.get('plants/new', (req, res) => {
+router.post('/plants/new', (req, res) => {
     User.find({ _id: '64b6b20174d6e5c8eacd082e' })
         .then((response) => {
-            PlantList.findOne({})
-                .then((plant) => {
-                    const newPlant = {
-                        plantNickname: 'Insert Nickname Here',
-                        plantOfficialName: plant.commonName,
-                        plantImage: plant.image,
-                        plantId: plant.plantId,
-                        plantTasks: [planttasksSchema],
-                        health: 100,
-                    };
-                    response[0].plants[0].userPlants.push(newPlant);
-                    response.save()
-                        .then((newEntry) => {
-                            console.log('newEntry', newEntry);
-                            res.json({ response: newEntry });
-                        });
+            const newPlant = {
+                plantNickname: 'Insert Nickname Here',
+                plantOfficialName: plant.commonName,
+                plantImage: plant.image,
+                plantId: plant.id,
+                plantTasks: [{
+                    taskName: 'water',
+                    status: 'pending',
+                    plantId: plant.id,
+                    date: Date(),
+                }, {
+                    taskName: 'fertilize',
+                    status: 'pending',
+                    plantId: plant.id,
+                    date: Date(),
+                }],
+            };
+            response[0].plants[0].userPlants.push(newPlant);
+            response.save()
+                .then((newEntry) => {
+                    console.log('newEntry', newEntry);
+                    res.json({ response: newEntry });
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.log('error', error);
-                    res.json({ error: error });
+                    return res.json({ message: 'there is an issue, please try again' });
                 });
         })
-        .catch((error) => {
+        .catch(error => {
             console.log('error', error);
-            res.json({ error: error });
+            return res.json({ message: 'there is an issue, please try again' });
+        });
+});
+
+router.put('/plants/single', (req, res) => {
+    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
+        .then((response) => {
+            let plantIndex = response[0].plants[0].userPlants.findIndex((plant) => {
+                return plant.plantId === 20;
+            });
+            response[0].plants[0].userPlants[plantIndex].plantNickname = req.body.plantNickname;
+            response.save()
+                .then((newEntry) => {
+                    console.log('newEntry', newEntry);
+                    res.json({ response: newEntry });
+                });
+        });
+});
+
+router.delete('/plants/single', (req, res) => {
+    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
+        .then((response) => {
+            let plantIndex = response[0].plants[0].userPlants.findIndex((plant) => {
+                return plant.plantId === 20;
+            });
+            response[0].plants[0].userPlants.splice(plantIndex, 1);
+            response.save()
+                .then((deletedEntry) => {
+                    console.log('newEntry', deletedEntry);
+                    res.json({ response: deletedEntry });
+                });
         });
 });
 

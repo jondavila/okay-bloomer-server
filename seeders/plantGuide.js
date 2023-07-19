@@ -6,6 +6,6 @@ mongoose.connect('mongodb://localhost:27017/plant-app', { useNewUrlParser: true,
 
 addPlantGuides(1);
 
-for (let i = 1; i <= 5; i++) {
+for (let i = 6; i <= 250; i++) {
     addPlantGuides(i);
 }
