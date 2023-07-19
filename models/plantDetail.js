@@ -34,6 +34,7 @@ const plantDetailSchema = new mongoose.Schema({
         amount: Number,
         interval: String,
     },
+    description: String,
     plantId: Number,
 
 }, { timestamps: true });

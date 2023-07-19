@@ -5,7 +5,7 @@ const router = express.Router();
 
 // import the plantdetails model
 const PlantDetail = require('../models/plantDetail');
-const PlantList = require('../models/plantList');
+
 
 router.get('/', function (req, res) {
     PlantDetail.find({})
