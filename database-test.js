@@ -32,6 +32,7 @@ function addPlantDetails(plantNum) {
     let newPlantDetail = {};
     axios.get(`https://perenual.com/api/species/details/${plantNum}?key=sk-acxG64a9e7cc984031504`)
         .then((response) => {
+            console.log('response', response);
             newPlantDetail = {
                 commonName: response.data.common_name,
                 scientificName: response.data.scientific_name,
@@ -58,6 +59,7 @@ function addPlantDetails(plantNum) {
                     amount: response.data.pruning_count.amount, // can come out as undefined
                     interval: response.data.pruning_count.interval // can come out as undefined
                 },
+                description: response.data.description,
                 plantId: response.data.id,
             };
             createPlantDetail(newPlantDetail);
