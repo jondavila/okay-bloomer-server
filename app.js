@@ -21,10 +21,7 @@ app.use('/plantdetails', require('./controllers/plantdetails'));
 app.use('/plantguides', require('./controllers/plantguides'));
 app.use('/plantlists', require('./controllers/plantlists'));
 app.use('/plantfaqs', require('./controllers/plantfaqs'));
-<<<<<<< HEAD
 app.use('/sanctuary', require('./controllers/sanctuary'));
-=======
->>>>>>> bba570f12b3466e7ded1233965dd1814c0cfb173
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {

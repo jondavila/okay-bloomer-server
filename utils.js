@@ -4,6 +4,8 @@ const PlantDetail = require('./models/plantDetail');
 const PlantGuide = require('./models/plantGuide');
 const PlantList = require('./models/plantList');
 const PlantFaq = require('./models/plantFaq');
+const { faker } = require('@faker-js/faker');
+const User = require('./models/user');
 
 
 function addPlantList(pageNumber) {
@@ -226,12 +228,14 @@ function createRandomUser(newUserObj) {
         .catch(err => console.log('error', err));
 }
 
-
-
 module.exports = {
     addPlantDetails,
     addPlantList,
     addPlantGuides,
     addPlantFaq,
+<<<<<<< HEAD
+=======
+    createRandomUser,
+>>>>>>> c63dbecd9b2bd1f869ffd4fd1f7dea2d2a041fcd
     addRandomUser,
 };
