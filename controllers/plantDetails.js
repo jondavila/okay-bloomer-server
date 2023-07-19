@@ -58,7 +58,10 @@ router.get('/plantTypes', function (req, res) {
 });
 
 router.get('/:plantId', function (req, res) {
-    PlantDetail.findOne({ plantId: req.params.plantId })
+    let inputPlantId = parseInt(req.params.plantId);
+    console.log('HELPELEKJROSKJFDSOJF=====================', req.params.plantId)
+    console.log('=====================HELPELEKJROSKJFDSOJF', inputPlantId)
+    PlantDetail.findOne({ plantId: inputPlantId })
         .then((plantDetail) => {
             console.log('plantDetail', plantDetail);
             res.json({ plantDetail: plantDetail });
