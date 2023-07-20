@@ -42,7 +42,7 @@ router.get('/plantTypes', function (req, res) {
                         result.push('other');
                     }
                 } else {
-                    let uniquePlantType = plantDetails[i].type.toLowerCase();
+                    let uniquePlantType = plantDetails[i].type;
                     if (!result.includes(uniquePlantType)) {
                         result.push(uniquePlantType);
                     }
@@ -59,8 +59,8 @@ router.get('/plantTypes', function (req, res) {
 
 router.get('/:plantId', function (req, res) {
     let inputPlantId = parseInt(req.params.plantId);
-    console.log('HELPELEKJROSKJFDSOJF=====================', req.params.plantId)
-    console.log('=====================HELPELEKJROSKJFDSOJF', inputPlantId)
+    console.log('HELPELEKJROSKJFDSOJF=====================', req.params.plantId);
+    console.log('=====================HELPELEKJROSKJFDSOJF', inputPlantId);
     PlantDetail.findOne({ plantId: inputPlantId })
         .then((plantDetail) => {
             console.log('plantDetail', plantDetail);

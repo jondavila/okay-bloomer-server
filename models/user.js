@@ -13,7 +13,10 @@ const journalEntrySchema = new mongoose.Schema({
 // create the plant tasks embedded document schema
 const plantTasksSchema = new mongoose.Schema({
     taskName: String, // 'water', 'fertilize', 'repot', 'prune', 'rotate', 'clean', 'check for pests'
-    status: String,
+    status: {
+        type: String,
+        default: 'pending',
+    },
     plantId: Number, // this is the plantId from the plantList
     date: Date,
 }, { timestamps: true });
@@ -31,6 +34,7 @@ const plantSanctuarySchema = new mongoose.Schema({
         plantId: Number, // this is the plantId from the plantList
         plantTasks: [plantTasksSchema],
         health: Number,
+        waterDays: Number,
     }],
     journalEntries: [journalEntrySchema],
     averagehealth: Number,
@@ -42,16 +46,7 @@ const userSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
     email: { type: String, required: true, unique: true },
-    jobTitle: String,
-    birthdate: Date,
     password: { type: String, required: true },
-    address: {
-        streetAddress: String,
-        city: String,
-        state: String,
-        zipCode: Number
-    },
-    number: String,
     plants: [plantSanctuarySchema],
 }, { timestamps: true });
 

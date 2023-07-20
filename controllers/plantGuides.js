@@ -29,5 +29,4 @@ router.get('/:plantId', function (req, res) {
 });
 
 
-
 module.exports = router;
