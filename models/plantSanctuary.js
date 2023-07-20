@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 // create the journal entry for a specific plant embedded document schema;;
 const journalEntrySchema = new mongoose.Schema({
     title: String,
@@ -27,6 +28,7 @@ const plantSanctuarySchema = new mongoose.Schema({
     userPlants: [{
         plantNickname: {
             type: String,
+            required: true,
         },
         plantOfficialName: String,
         plantImage: String,
@@ -40,19 +42,6 @@ const plantSanctuarySchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-// create the user schema
-const userSchema = new mongoose.Schema({
-    name: String,
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    plants: [plantSanctuarySchema],
-}, { timestamps: true });
+const PlantSanctuary = mongoose.model('PlantSanctuary', plantSanctuarySchema);
 
-
-
-// create model
-const User = mongoose.model('User', userSchema);
-
-
-// export the model to be used
-module.exports = User;
+module.exports = PlantSanctuary;
