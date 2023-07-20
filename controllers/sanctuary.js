@@ -19,9 +19,9 @@ router.get('/', (req, res) => {
 router.get('/user/:email', (req, res) => {
     console.log('something', req.params.email);
     User.findOne({ email: req.params.email })
-        .then((response) => {
-            console.log('response', response);
-            res.json({ user: response });
+        .then((user) => {
+            console.log('response', user);
+            res.json({ user: user });
         })
         .catch((error) => {
             console.log('error', error);
@@ -62,12 +62,12 @@ router.post('/plants/new/:email', (req, res) => {
                 plantNickname: req.body.nickName,
                 plantOfficialName: req.body.commonName,
                 plantImage: req.body.image,
-                plantId: req.body.id,
+                plantId: req.body.plantId,
                 waterDays: req.body.waterDays,
                 plantTasks: [{
                     taskName: 'water',
                     status: 'pending',
-                    plantId: req.body.id,
+                    plantId: req.body.plantId,
                     date: Date(),
                 }],
             };
