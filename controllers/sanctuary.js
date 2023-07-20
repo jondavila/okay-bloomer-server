@@ -16,6 +16,18 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/user/:email', (req, res) => {
+    console.log('something', req.params.email);
+    User.findOne({ email: req.params.email })
+        .then((response) => {
+            console.log('response', response);
+            res.json({ user: response });
+        })
+        .catch((error) => {
+            console.log('error', error);
+        });
+});
+
 // this route will give us back ONLY THE PLANTS IN THE USER'S PLANT SANCTUARY
 router.get('/plants', (req, res) => {
     User.find({ _id: '64b6b20174d6e5c8eacd082e' })
