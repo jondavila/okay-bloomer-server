@@ -71,8 +71,8 @@ router.post('/plants/new/:id', (req, res) => {
                     date: Date(),
                 }],
             };
-            response[0].plants[0].userPlants.push(newPlant);
-            response[0].save()
+            response.plants[0].userPlants.push(newPlant);
+            response.save()
                 .then((newEntry) => {
                     console.log('newEntry', newEntry);
                     res.json({ response: newEntry });
