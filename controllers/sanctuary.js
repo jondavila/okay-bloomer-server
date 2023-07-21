@@ -57,32 +57,32 @@ router.get('/plants/single', (req, res) => {
 // this route will add a plant to a user's plant sanctuary
 router.post('/plants/new/:email', (req, res) => {
     User.find({ email: req.params.email })
-        .then((response) => {
+        .then((user) => {
             const newPlant = {
                 plantNickname: req.body.nickName,
                 plantOfficialName: req.body.commonName,
                 plantImage: req.body.image,
-                plantId: req.body.id,
+                plantId: req.body.plantId,
                 waterDays: req.body.waterDays,
                 plantTasks: [{
                     taskName: 'water',
                     status: 'pending',
-                    plantId: req.body.id,
+                    plantId: req.body.platnId,
                     date: Date(),
                 }],
             };
-            console.log('response faslkdfjasdlfkj', response[0].plants);
+            console.log('user faslkdfjasdlfkj', user[0].plants[0].userPlants);
             console.log('newPlant faslkdfjasdlfkj', newPlant);
-            // response[0].plants[0].userPlants.push(newPlant);
-            // response[0].save()
-            //     .then((newEntry) => {
-            //         console.log('newEntry', newEntry);
-            //         res.json({ response: newEntry });
-            //     })
-            //     .catch(error => {
-            //         console.log('error', error);
-            //         return res.json({ message: 'there is an issue, please try again' });
-            //     });
+            user[0].plants[0].userPlants.push(newPlant);
+            user[0].save()
+                .then((newEntry) => {
+                    console.log('newEntry', newEntry);
+                    res.json({ user: newEntry });
+                })
+                .catch(error => {
+                    console.log('error', error);
+                    return res.json({ message: 'there is an issue, please try again' });
+                });
         })
         .catch(error => {
             console.log('error', error);
@@ -209,8 +209,8 @@ router.delete('/plants/single/tasks/delete/:taskIndexNumber', (req, res) => {
 
 // ========================= JOURNAL ROUTES =========================
 // this route will give us back ONLY THE JOURNAL ENTRIES
-router.get('/journal', (req, res) => {
-    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
+router.get('/journal/:id', (req, res) => {
+    User.find({ _id: req.params.id })
         .then((response) => {
             console.log('response[0].plants', response[0].plants[0].journalEntries);
             res.json({ response: response[0].plants[0].journalEntries });
