@@ -25,15 +25,13 @@ const plantTasksSchema = new mongoose.Schema({
 // create the embedded document schema
 const plantSanctuarySchema = new mongoose.Schema({
     userPlants: [{
-        plantNickname: {
-            type: String,
-        },
+        plantNickname: String,
         plantOfficialName: String,
         plantImage: String,
         plantId: Number, // this is the plantId from the plantList
         plantTasks: [plantTasksSchema],
         health: Number,
-        waterDays: Number,
+        waterDays: String
     }],
     journalEntries: [journalEntrySchema],
     averagehealth: Number,

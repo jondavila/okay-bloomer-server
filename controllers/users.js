@@ -85,7 +85,8 @@ router.post('/signup', (req, res) => {
                     email: req.body.email,
                     password: req.body.password,
                     plants: [{
-                        userPlants: []
+                        userPlants: [],
+                        journalEntries: []
                     }]
                 });
 
