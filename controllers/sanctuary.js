@@ -55,8 +55,8 @@ router.get('/plants/single', (req, res) => {
 
 // TODO
 // this route will add a plant to a user's plant sanctuary
-router.post('/plants/new/:email', (req, res) => {
-    User.find({ email: req.params.email })
+router.post('/plants/new/:id', (req, res) => {
+    User.find({ email: req.params.id })
         .then((response) => {
             const newPlant = {
                 plantNickname: req.body.nickName,
