@@ -29,8 +29,8 @@ router.get('/user/:email', (req, res) => {
 });
 
 // this route will give us back ONLY THE PLANTS IN THE USER'S PLANT SANCTUARY
-router.get('/plants', (req, res) => {
-    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
+router.get('/plants/:userId', (req, res) => {
+    User.find({ _id: req.params.userId })
         .then((response) => {
             console.log('response.plants.userPlants', response[0].plants[0].userPlants);
             res.json({ response: response[0].plants[0].userPlants });
@@ -55,8 +55,8 @@ router.get('/plants/single', (req, res) => {
 
 // TODO
 // this route will add a plant to a user's plant sanctuary
-router.post('/plants/new/:id', (req, res) => {
-    User.find({ email: req.params.id })
+router.post('/plants/new/:email', (req, res) => {
+    User.find({ email: req.params.email })
         .then((response) => {
             const newPlant = {
                 plantNickname: req.body.nickName,
@@ -71,16 +71,18 @@ router.post('/plants/new/:id', (req, res) => {
                     date: Date(),
                 }],
             };
-            response.plants[0].userPlants.push(newPlant);
-            response.save()
-                .then((newEntry) => {
-                    console.log('newEntry', newEntry);
-                    res.json({ response: newEntry });
-                })
-                .catch(error => {
-                    console.log('error', error);
-                    return res.json({ message: 'there is an issue, please try again' });
-                });
+            console.log('response faslkdfjasdlfkj', response[0].plants);
+            console.log('newPlant faslkdfjasdlfkj', newPlant);
+            // response[0].plants[0].userPlants.push(newPlant);
+            // response[0].save()
+            //     .then((newEntry) => {
+            //         console.log('newEntry', newEntry);
+            //         res.json({ response: newEntry });
+            //     })
+            //     .catch(error => {
+            //         console.log('error', error);
+            //         return res.json({ message: 'there is an issue, please try again' });
+            //     });
         })
         .catch(error => {
             console.log('error', error);
@@ -142,8 +144,8 @@ router.get('/plants/single/tasks/single', (req, res) => {
 });
 
 // this route will create a new task for a specific plant
-router.post('/plants/single/tasks/new', (req, res) => {
-    User.findOne({ _id: '64b6b20174d6e5c8eacd082e' })
+router.post('/plants/single/tasks/new/:userId', (req, res) => {
+    User.findOne({ _id: req.params.userId })
         .then((response) => {
             const newTask = {
                 taskName: req.body.taskName,
