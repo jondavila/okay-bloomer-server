@@ -217,8 +217,8 @@ router.delete('/plants/single', (req, res) => {
 
 // ========================= TASK ROUTES =========================
 // this route will give us back the USER'S TASKS FOR A SPECIFIC PLANT
-router.get('/plants/single/tasks', (req, res) => {
-    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
+router.get('/plants/single/tasks/:id', (req, res) => {
+    User.find({ _id: req.params.id })
         .then((response) => {
             console.log('response[0].plants[0].userPlants[0].tasks', response[0].plants[0].userPlants[0].plantTasks);
             res.json({ response: response[0].plants[0].userPlants[0].plantTasks });
