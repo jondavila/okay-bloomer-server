@@ -54,29 +54,44 @@ router.get('/plants/single', (req, res) => {
 
 
 // TODO
-// this route will add a plant to a user's plant sanctuary
+// ==============Utility function to generate the tasks array for watering============================
+function generateWateringTasks(waterDays, plantId) {
+    const tasks = [];
+    const numberOfTasks = 30 / waterDays; // we generate tasks for 30 days based on frequency
+
+    // we create a task for each day where watering is required
+    for (let i = 0; i < numberOfTasks; i++) {
+        const taskDate = new Date();
+        taskDate.setDate(taskDate.getDate() + i * waterDays); // set the date for each task
+
+        tasks.push({
+            taskName: 'water',
+            status: 'pending',
+            plantId,
+            date: taskDate,
+        });
+    }
+
+    return tasks;
+}
+//============NEW!!!===== this route will add a plant to a user's plant sanctuary ===================
 router.post('/plants/new/:email', (req, res) => {
     User.find({ email: req.params.email })
         .then((user) => {
+            const wateringTasks = generateWateringTasks(req.body.waterDays, req.body.plantId); // generate the watering tasks
+
             const newPlant = {
                 plantNickname: req.body.nickName,
                 plantOfficialName: req.body.commonName,
                 plantImage: req.body.image,
                 plantId: req.body.plantId,
                 waterDays: req.body.waterDays,
-                plantTasks: [{
-                    taskName: 'water',
-                    status: 'pending',
-                    plantId: req.body.platnId,
-                    date: Date(),
-                }],
+                plantTasks: wateringTasks, // set the tasks array to the plant
             };
-            console.log('user faslkdfjasdlfkj', user[0].plants[0].userPlants);
-            console.log('newPlant faslkdfjasdlfkj', newPlant);
+
             user[0].plants[0].userPlants.push(newPlant);
             user[0].save()
                 .then((newEntry) => {
-                    console.log('newEntry', newEntry);
                     res.json({ user: newEntry });
                 })
                 .catch(error => {
@@ -89,6 +104,61 @@ router.post('/plants/new/:email', (req, res) => {
             return res.json({ message: 'there is an issue, please try again' });
         });
 });
+
+//============OLD=========== this route will add a plant to a user's plant sanctuary =================
+// router.post('/plants/new/:email', (req, res) => {
+//     User.find({ email: req.params.email })
+//         .then((user) => {
+//             const newPlant = {
+//                 plantNickname: req.body.nickName,
+//                 plantOfficialName: req.body.commonName,
+//                 plantImage: req.body.image,
+//                 plantId: req.body.plantId,
+//                 waterDays: req.body.waterDays,
+//                 plantTasks: [{
+//                     taskName: 'water',
+//                     status: 'pending',
+//                     plantId: req.body.platnId,
+//                     date: Date(),
+//                 }],
+//             };
+//             console.log('user faslkdfjasdlfkj', user[0].plants[0].userPlants);
+//             console.log('newPlant faslkdfjasdlfkj', newPlant);
+//             user[0].plants[0].userPlants.push(newPlant);
+//             user[0].save()
+//                 .then((newEntry) => {
+//                     console.log('newEntry', newEntry);
+//                     res.json({ user: newEntry });
+//                 })
+//                 .catch(error => {
+//                     console.log('error', error);
+//                     return res.json({ message: 'there is an issue, please try again' });
+//                 });
+//         })
+//         .catch(error => {
+//             console.log('error', error);
+//             return res.json({ message: 'there is an issue, please try again' });
+//         });
+// });
+
+// =========== CODE FOR UPDATING TASKS EVERY 30 DAYS ===================
+// User.find().then(users => {
+//     users.forEach(user => {
+//         user.plants.forEach(plantSanctuary => {
+//             plantSanctuary.userPlants.forEach(userPlant => {
+//                 let lastWaterTask = userPlant.plantTasks[userPlant.plantTasks.length - 1];
+
+//                 if (Date.now() - new Date(lastWaterTask.date) >= 30 * 24 * 60 * 60 * 1000) {
+//                     let tasks = generateWateringTasks(userPlant.waterDays, userPlant.plantId);
+//                     userPlant.plantTasks = userPlant.plantTasks.concat(tasks);
+//                 }
+//             });
+//         });
+
+//         user.save();
+//     });
+// });
+
 
 router.put('/plants/single', (req, res) => {
     User.find({ _id: '64b6b20174d6e5c8eacd082e' })
