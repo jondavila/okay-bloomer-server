@@ -209,13 +209,9 @@ router.post('/new', (req, res) => {
 
 router.put('/:id', (req, res) => {
     const updateQuery = {};
-    // check firstName
-    if (req.body.firstName) {
-        updateQuery.firstName = req.body.firstName;
-    }
-    // check lastName
-    if (req.body.lastName) {
-        updateQuery.lastName = req.body.lastName;
+    // check name
+    if (req.body.name) {
+        updateQuery.name = req.body.name;
     }
     // check email
     if (req.body.email) {
