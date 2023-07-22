@@ -40,17 +40,41 @@ router.get('/plants/:userId', (req, res) => {
         });
 });
 
-// this route will give us back a SPECIFIC PLANT IN THE USER'S PLANT SANCTUARY
-router.get('/plants/single', (req, res) => {
-    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
-        .then((response) => {
-            console.log('response[0].plants[0].userPlants[0]', response[0].plants[0].userPlants[0]);
-            res.json({ response: response[0].plants[0].userPlants[0] });
-        })
-        .catch((error) => {
-            console.log('error', error);
-        });
-});
+
+// =========== neew/ignore ======== this route will give us back a SPECIFIC PLANT IN THE USER'S PLANT SANCTUARY
+
+// router.get('/user/:email/:plantId/tasks', (req, res) => {
+//     const email = req.params.email;
+//     const plantId = req.params.plantId;
+
+//     User.findOne({ email: email })
+//         .then((response) => {
+//             const plant = response.plants.find(plant => plant._id.toString() === plantId);
+//             if (plant) {
+//                 res.json({ tasks: plant.tasks });  // Assuming each plant has a 'tasks' array
+//             } else {
+//                 res.status(404).json({ message: "Plant not found." });
+//             }
+//         })
+//         .catch((error) => {
+//             console.error('error', error);
+//             res.status(500).json({ message: "An error occurred." });
+//         });
+// });
+
+
+
+// ========OLD=========== this route will give us back a SPECIFIC PLANT IN THE USER'S PLANT SANCTUARY
+// router.get('/plants/single', (req, res) => {
+//     User.find({ _id: '64b6b20174d6e5c8eacd082e' })
+//         .then((response) => {
+//             console.log('response[0].plants[0].userPlants[0]', response[0].plants[0].userPlants[0]);
+//             res.json({ response: response[0].plants[0].userPlants[0] });
+//         })
+//         .catch((error) => {
+//             console.log('error', error);
+//         });
+// });
 
 
 // TODO
