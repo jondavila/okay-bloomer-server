@@ -29,8 +29,8 @@ router.get('/user/:email', (req, res) => {
 });
 
 // this route will give us back ONLY THE PLANTS IN THE USER'S PLANT SANCTUARY
-router.get('/plants', (req, res) => {
-    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
+router.get('/plants/:userId', (req, res) => {
+    User.find({ _id: req.params.userId })
         .then((response) => {
             console.log('response.plants.userPlants', response[0].plants[0].userPlants);
             res.json({ response: response[0].plants[0].userPlants });
@@ -40,42 +40,83 @@ router.get('/plants', (req, res) => {
         });
 });
 
-// this route will give us back a SPECIFIC PLANT IN THE USER'S PLANT SANCTUARY
-router.get('/plants/single', (req, res) => {
-    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
-        .then((response) => {
-            console.log('response[0].plants[0].userPlants[0]', response[0].plants[0].userPlants[0]);
-            res.json({ response: response[0].plants[0].userPlants[0] });
-        })
-        .catch((error) => {
-            console.log('error', error);
-        });
-});
+
+// =========== neew/ignore ======== this route will give us back a SPECIFIC PLANT IN THE USER'S PLANT SANCTUARY
+
+// router.get('/user/:email/:plantId/tasks', (req, res) => {
+//     const email = req.params.email;
+//     const plantId = req.params.plantId;
+
+//     User.findOne({ email: email })
+//         .then((response) => {
+//             const plant = response.plants.find(plant => plant._id.toString() === plantId);
+//             if (plant) {
+//                 res.json({ tasks: plant.tasks });  // Assuming each plant has a 'tasks' array
+//             } else {
+//                 res.status(404).json({ message: "Plant not found." });
+//             }
+//         })
+//         .catch((error) => {
+//             console.error('error', error);
+//             res.status(500).json({ message: "An error occurred." });
+//         });
+// });
+
+
+
+// ========OLD=========== this route will give us back a SPECIFIC PLANT IN THE USER'S PLANT SANCTUARY
+// router.get('/plants/single', (req, res) => {
+//     User.find({ _id: '64b6b20174d6e5c8eacd082e' })
+//         .then((response) => {
+//             console.log('response[0].plants[0].userPlants[0]', response[0].plants[0].userPlants[0]);
+//             res.json({ response: response[0].plants[0].userPlants[0] });
+//         })
+//         .catch((error) => {
+//             console.log('error', error);
+//         });
+// });
 
 
 // TODO
-// this route will add a plant to a user's plant sanctuary
+// ==============Utility function to generate the tasks array for watering============================
+function generateWateringTasks(waterDays, plantId) {
+    const tasks = [];
+    const numberOfTasks = 30 / waterDays; // we generate tasks for 30 days based on frequency
+
+    // we create a task for each day where watering is required
+    for (let i = 0; i < numberOfTasks; i++) {
+        const taskDate = new Date();
+        taskDate.setDate(taskDate.getDate() + i * waterDays); // set the date for each task
+
+        tasks.push({
+            taskName: 'water',
+            status: 'pending',
+            plantId,
+            date: taskDate,
+        });
+    }
+
+    return tasks;
+}
+//============NEW!!!===== this route will add a plant to a user's plant sanctuary ===================
 router.post('/plants/new/:email', (req, res) => {
     User.find({ email: req.params.email })
-        .then((response) => {
+        .then((user) => {
+            const wateringTasks = generateWateringTasks(req.body.waterDays, req.body.plantId); // generate the watering tasks
+
             const newPlant = {
                 plantNickname: req.body.nickName,
                 plantOfficialName: req.body.commonName,
                 plantImage: req.body.image,
                 plantId: req.body.plantId,
                 waterDays: req.body.waterDays,
-                plantTasks: [{
-                    taskName: 'water',
-                    status: 'pending',
-                    plantId: req.body.plantId,
-                    date: Date(),
-                }],
+                plantTasks: wateringTasks, // set the tasks array to the plant
             };
-            response[0].plants[0].userPlants.push(newPlant);
-            response[0].save()
+
+            user[0].plants[0].userPlants.push(newPlant);
+            user[0].save()
                 .then((newEntry) => {
-                    console.log('newEntry', newEntry);
-                    res.json({ response: newEntry });
+                    res.json({ user: newEntry });
                 })
                 .catch(error => {
                     console.log('error', error);
@@ -87,6 +128,61 @@ router.post('/plants/new/:email', (req, res) => {
             return res.json({ message: 'there is an issue, please try again' });
         });
 });
+
+//============OLD=========== this route will add a plant to a user's plant sanctuary =================
+// router.post('/plants/new/:email', (req, res) => {
+//     User.find({ email: req.params.email })
+//         .then((user) => {
+//             const newPlant = {
+//                 plantNickname: req.body.nickName,
+//                 plantOfficialName: req.body.commonName,
+//                 plantImage: req.body.image,
+//                 plantId: req.body.plantId,
+//                 waterDays: req.body.waterDays,
+//                 plantTasks: [{
+//                     taskName: 'water',
+//                     status: 'pending',
+//                     plantId: req.body.platnId,
+//                     date: Date(),
+//                 }],
+//             };
+//             console.log('user faslkdfjasdlfkj', user[0].plants[0].userPlants);
+//             console.log('newPlant faslkdfjasdlfkj', newPlant);
+//             user[0].plants[0].userPlants.push(newPlant);
+//             user[0].save()
+//                 .then((newEntry) => {
+//                     console.log('newEntry', newEntry);
+//                     res.json({ user: newEntry });
+//                 })
+//                 .catch(error => {
+//                     console.log('error', error);
+//                     return res.json({ message: 'there is an issue, please try again' });
+//                 });
+//         })
+//         .catch(error => {
+//             console.log('error', error);
+//             return res.json({ message: 'there is an issue, please try again' });
+//         });
+// });
+
+// =========== CODE FOR UPDATING TASKS EVERY 30 DAYS ===================
+// User.find().then(users => {
+//     users.forEach(user => {
+//         user.plants.forEach(plantSanctuary => {
+//             plantSanctuary.userPlants.forEach(userPlant => {
+//                 let lastWaterTask = userPlant.plantTasks[userPlant.plantTasks.length - 1];
+
+//                 if (Date.now() - new Date(lastWaterTask.date) >= 30 * 24 * 60 * 60 * 1000) {
+//                     let tasks = generateWateringTasks(userPlant.waterDays, userPlant.plantId);
+//                     userPlant.plantTasks = userPlant.plantTasks.concat(tasks);
+//                 }
+//             });
+//         });
+
+//         user.save();
+//     });
+// });
+
 
 router.put('/plants/single', (req, res) => {
     User.find({ _id: '64b6b20174d6e5c8eacd082e' })
@@ -121,8 +217,8 @@ router.delete('/plants/single', (req, res) => {
 
 // ========================= TASK ROUTES =========================
 // this route will give us back the USER'S TASKS FOR A SPECIFIC PLANT
-router.get('/plants/single/tasks', (req, res) => {
-    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
+router.get('/plants/single/tasks/:id', (req, res) => {
+    User.find({ _id: req.params.id })
         .then((response) => {
             console.log('response[0].plants[0].userPlants[0].tasks', response[0].plants[0].userPlants[0].plantTasks);
             res.json({ response: response[0].plants[0].userPlants[0].plantTasks });
@@ -142,8 +238,8 @@ router.get('/plants/single/tasks/single', (req, res) => {
 });
 
 // this route will create a new task for a specific plant
-router.post('/plants/single/tasks/new', (req, res) => {
-    User.findOne({ _id: '64b6b20174d6e5c8eacd082e' })
+router.post('/plants/single/tasks/new/:userId', (req, res) => {
+    User.findOne({ _id: req.params.userId })
         .then((response) => {
             const newTask = {
                 taskName: req.body.taskName,
@@ -207,8 +303,8 @@ router.delete('/plants/single/tasks/delete/:taskIndexNumber', (req, res) => {
 
 // ========================= JOURNAL ROUTES =========================
 // this route will give us back ONLY THE JOURNAL ENTRIES
-router.get('/journal', (req, res) => {
-    User.find({ _id: '64b6b20174d6e5c8eacd082e' })
+router.get('/journal/:id', (req, res) => {
+    User.find({ _id: req.params.id })
         .then((response) => {
             console.log('response[0].plants', response[0].plants[0].journalEntries);
             res.json({ response: response[0].plants[0].journalEntries });

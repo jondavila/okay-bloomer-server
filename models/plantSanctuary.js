@@ -34,7 +34,7 @@ const plantSanctuarySchema = new mongoose.Schema({
         plantImage: String,
         plantId: Number, // this is the plantId from the plantList
         plantTasks: [plantTasksSchema],
-        health: Number,
+        health: String,  //this will be a label of good, okay, or poor
         waterDays: Number,
     }],
     journalEntries: [journalEntrySchema],

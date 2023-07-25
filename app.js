@@ -17,10 +17,11 @@ app.get('/', (req, res) => {
 
 app.use('/posts', require('./controllers/posts'));
 app.use('/users', require('./controllers/users'));
-app.use('/plantdetails', require('./controllers/plantdetails'));
-app.use('/plantguides', require('./controllers/plantguides'));
+app.use('/plantdetails', require('./controllers/plantDetails'));
+app.use('/plantguides', require('./controllers/plantGuides'));
 app.use('/plantfaqs', require('./controllers/plantfaqs'));
 app.use('/sanctuary', require('./controllers/sanctuary'));
+app.use('/tasks', require('./controllers/tasks'));
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {

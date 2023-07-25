@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { stringify } = require('querystring');
 
 // create the journal entry for a specific plant embedded document schema;;
 const journalEntrySchema = new mongoose.Schema({
@@ -25,15 +26,13 @@ const plantTasksSchema = new mongoose.Schema({
 // create the embedded document schema
 const plantSanctuarySchema = new mongoose.Schema({
     userPlants: [{
-        plantNickname: {
-            type: String,
-        },
+        plantNickname: String,
         plantOfficialName: String,
         plantImage: String,
         plantId: Number, // this is the plantId from the plantList
         plantTasks: [plantTasksSchema],
-        health: Number,
-        waterDays: Number,
+        health: String, // setting health to string, as it will be a status of good, okay, or poor
+        waterDays: String
     }],
     journalEntries: [journalEntrySchema],
     averagehealth: Number,
