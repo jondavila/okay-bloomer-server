@@ -19,9 +19,9 @@ router.get('/', (req, res) => {
 router.get('/user/:email', (req, res) => {
     console.log('something', req.params.email);
     User.findOne({ email: req.params.email })
-        .then((response) => {
-            console.log('response', response);
-            res.json({ user: response });
+        .then((user) => {
+            console.log('response', user);
+            res.json({ user: user });
         })
         .catch((error) => {
             console.log('error', error);
