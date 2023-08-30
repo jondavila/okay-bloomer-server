@@ -44,6 +44,10 @@ This entire length of code shows the entirety what is included inside a SINGLE u
 - Creating all the routes that needed the correct and EXACT information needed to be manipulated on the front end
 - Creating the functions in order to properly seed the data that we needed which required multiple tests
 
+## Video Presentation
+
+[Link to Presentation](https://youtu.be/C0xuBK3qbZI)
+
 # Developed By:
 
 Jonathan Davila: Full-Stack Development
